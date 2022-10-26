@@ -43,7 +43,7 @@ def input_03(self, middle01, new_quit):
     for i in range(0, len(self)):
         for x in range(0, len(sum_middle01)):
             for y in range(0, len(new_quit)):
-                new_sum.append([self[i], sum_middle01[x], new_sum[y], "全景退出"])
+                new_sum.append([self[i], sum_middle01[x], new_quit[y], "全景退出"])
     return new_sum,len(new_sum)
 
 
@@ -51,6 +51,6 @@ def input_03(self, middle01, new_quit):
 def input_04(self, new_quit):
     new_sum = []
     for i in range(0, len(self)):
-        for x in range(0, new_quit):
+        for x in range(0, len(new_quit)):
             new_sum.append([self[i], "", new_quit[x], "全景退出"])
     return new_sum,len(new_sum)

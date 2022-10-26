@@ -32,22 +32,19 @@ new_quit = ["1车速",
             "6雷达激活雷达不满足退出",
             "7转向灯激活转向灯回正退出"
             ]
+# 用来统计每一块会占EXCEL多少行
 sumx = 1
 # 创建Excel程序
 bp = BasePage.BasePage()
 # 创建表格名称为  全景测试
 sheet = bp.add_sheets("全景测试")
-# 在表格中添加第一项数据
-bp.add_cell(sheet[0], "A" + sumx, se.input_01(new_input01)[0])
-sumx += se.input_01(new_input01)[1]
-# 在表格中添加第二项数据
-bp.add_cell(sheet[0], "A" + sumx, se.input_02(new_input01,new_middle01)[0])
-sumx += se.input_02(new_input01,new_middle01)[0][1]
-# 在表格中添加第三项数据
-bp.add_cell(sheet[0], "A" + sumx, se.input_03(new_input01,new_middle02,new_quit)[0])
-sumx += se.input_03(new_input01,new_middle02,new_quit)[1]
-# 在表格中添加第四项数据
-bp.add_cell(sheet[0], "A" + sumx, se.input_04(new_input01,new_quit)[0])
-sumx += se.input_04(new_input01,new_quit)[1]
 # 设置列宽
-bp.cell_wide()
+bp.cell_wide(sheet[0], "A1:D1", 45)
+# 存储所有调用方法
+new_dict = [se.input_01(new_input01), se.input_02(new_input01, new_middle01),
+            se.input_03(new_input01, new_middle02, new_quit), se.input_04(new_input01, new_quit)]
+for i in range(0, 4):
+    bp.add_cell(sheet[0], "A" + str(sumx), new_dict[i][0])
+    sumx += new_dict[i][1]
+# 退出
+bp.quit()

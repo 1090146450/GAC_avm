@@ -1,4 +1,7 @@
+# 导入xlwings包
 import xlwings as xl
+# 导入一个自定义的异常，可以使得程序出现故障后进行打印故障
+from Exception.All_Exception import len_Exception
 
 
 class BasePage:
@@ -8,6 +11,7 @@ class BasePage:
     book = app.books.add()
     # 关闭提示信息加快运行速度
     app.display_alerts = False
+
     # 创建表
     def add_sheets(self, name):
         if isinstance(name, list):
@@ -38,10 +42,32 @@ class BasePage:
             bt.range(name).api.Borders(i).LineStyle = 1
 
     # 设置单元格列宽
-    def cell_wide(self, bt, name, len):
-        if isinstance(name,list) or isinstance(len,list):
-            for i in 
-        bt.range(name).column_width = len
+    def cell_wide(self, bt, name, new_len):
+        # 判断输入两个值是否为列表输入
+        if isinstance(name, list) or isinstance(new_len, list):
+            # 如果两个都为列表输入则判断是否长度相同
+            if isinstance(name, list) and isinstance(new_len, list):
+                try:
+                    # 判断长度是否相同
+                    if (len(name) != len(new_len)) or len(name) == 0:
+                        raise len_Exception()
+                #     如果不相同则会抛出异常
+                except len_Exception:
+                    print("请输入相同长度的两个列表，或者您输入了空列表")
+                # 如果没有报错则说明列表相同
+                else:
+                    # 开始将每一行设置行宽
+                    for i in range(0, len(name)):
+                        bt.range(name[0]).column_width = new_len[0]
+            # 如果列表宽不相同则抛出异常
+            else:
+                try:
+                    raise len_Exception()
+                except len_Exception:
+                    print("请将参数输入两个列表或者两个单独值")
+        # 只传入了一天数据后会直接进行传值
+        else:
+            bt.range(name).column_width = new_len
 
     # 单元格合并
     def cell_merge(self, bt, name):
